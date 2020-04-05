@@ -1,37 +1,30 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Operacion {
-    int precio;
+    private int precioFinal;
+    List<Item> items = new ArrayList<Item>();
+    private boolean cerrado;
 
-    public Operacion(int precio){
-        this.precio = precio;
+    public Operacion(){
+        this.precioFinal = 0;
+        this.cerrado = false;
     }
 
-    public int getPrecio() {
-        return precio;
+    public void agregarItem(Item nuevoItem){
+        this.items.add(nuevoItem);
     }
-}
 
-/*
+    public int obtenerValor(){
+        return this.cerrado?precioFinal:this.items.stream().mapToInt(item -> item.precio).sum();
+    }
 
-clase operacion
--dentro de esta clase habra una lista de items
--tendra un metodo comprar??, generaria un documento
+    public void cerrar(){
+        precioFinal = this.obtenerValor();
+        this.cerrado = true;
+    }
 
--clase item
-tiene un precio y un tipo
-
-clase documento
--tiene asociada una operacion
-
-import org.junit.Assert;
-import org.junit.Test;
-
-public class OperacionTest {
-
-    @Test
-    public void pruebaOperacion(){
-        Operacion operacion = new Operacion(70);
-        Assert.assertEquals(70,operacion.getPrecio());
+    public Documento comprar(){
+        return this.items.stream().allMatch(item -> item.tipo == TipoItem.ARTICULO)?new Documento():null;
     }
 }
-
-*/
